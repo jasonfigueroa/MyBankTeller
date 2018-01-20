@@ -9,8 +9,8 @@ namespace MyBankTeller
             set { id = value;}
         }
 
-        private int balance;
-        public int Balance
+        private double balance;
+        public double Balance
         {
             get { return balance;}
             set { balance = value;}
@@ -31,7 +31,7 @@ namespace MyBankTeller
             Balance = 0;
         }
 
-        public Account(int id, int balance)
+        public Account(int id, double balance)
         {
             Id = id;
             Balance = balance;

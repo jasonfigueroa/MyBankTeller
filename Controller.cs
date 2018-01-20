@@ -40,7 +40,13 @@ namespace MyBankTeller
                     Console.WriteLine($"new customer id: {customer.Id}");
 
                     // TODO create new account for new user and store it in Account 
-                    // table in db 
+                    // table in db
+                    int accountId = model.CreateAccount(customer.Id);
+                    Account account = new Account(accountId);
+                    
+                    customer.Accounts.Add(account);
+
+                    Console.WriteLine();
                     
                     break;
                 case 2:
