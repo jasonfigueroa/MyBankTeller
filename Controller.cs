@@ -4,19 +4,10 @@ namespace MyBankTeller
 {
     internal class Controller
     {
-        // private Account account;
+        private string fullname;
+        private int accountId;
         private Customer customer;
-        // private int accountNumber;
         private Model model;
-        // private void promptUserForAccountNumber()
-        // {
-        //     this.accountNumber = 0;
-        //     while(accountNumber == 0)
-        //     {
-        //         Console.WriteLine("What is your account number?");
-        //         accountNumber = int.Parse(Console.ReadLine());
-        //     }
-        // }
 
         public Controller()
         {
@@ -28,41 +19,70 @@ namespace MyBankTeller
             switch (option)
             {
                 case 1:
+                    /***************************/
+                    /* Create Customer Account */
+                    /***************************/
                     Console.WriteLine("What is your full name?");
-                    string fullname = Console.ReadLine();
+                    this.fullname = Console.ReadLine();
 
-                    customer = new Customer(fullname);
+                    customer = new Customer(this.fullname);
 
                     // CreateCustomer will return last id inserted into db
-                    customer.Id = model.CreateCustomer(fullname);
+                    customer.Id = model.CreateCustomer(this.fullname);
 
                     Console.WriteLine($"new customer name: {customer.Fullname}");
                     Console.WriteLine($"new customer id: {customer.Id}");
 
                     // TODO create new account for new user and store it in Account 
                     // table in db
-                    int accountId = model.CreateAccount(customer.Id);
-                    Account account = new Account(accountId);
+                    this.accountId = model.CreateAccount(customer.Id);
+                    Account account = new Account(this.accountId);
                     
                     customer.Accounts.Add(account);
 
-                    Console.WriteLine();
+                    // Console.WriteLine();
                     
                     break;
                 case 2:
-                    Console.WriteLine("Case 2");
-                    // this.promptUserForAccountNumber();
+                    /***********/
+                    /* Deposit */
+                    /***********/
+
+                    // prompt user for their name
+                    Console.WriteLine("What is your full name?");
+                    this.fullname = Console.ReadLine();
+                    
+                    // prompt user for the account id number of the account they 
+                    // would like to make a deposit to
+                    Console.WriteLine("What is the id of the account you wish to make the deposit to?");
+                    this.accountId = int.Parse(Console.ReadLine());
+
+                    // prompt user for amount they wish to deposit
+                    Console.WriteLine("How much would you like to deposit?");
+                    double depositAmount = double.Parse(Console.ReadLine());
+
+                    // make the deposit
+                    model.Deposit(fullname, this.accountId, depositAmount);
+
                     break;
                 case 3:
-                    Console.WriteLine("Case 2");
-                    // this.promptUserForAccountNumber();
+                    /************/
+                    /* Withdraw */
+                    /************/
+                    
+                    // code here
+
                     break;
                 case 4:
-                    Console.WriteLine("Case 2");
-                    // this.promptUserForAccountNumber();
+                    /****************/
+                    /* Show Balance */
+                    /****************/
+                    
+                    // code here
+
                     break;
                 // default:
-                //     Console.WriteLine("Default case");
+                //     // code here
                 //     break;
             }
         }
