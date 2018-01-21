@@ -70,7 +70,21 @@ namespace MyBankTeller
                     /* Withdraw */
                     /************/
                     
-                    // code here
+                    // prompt user for their name
+                    Console.WriteLine("What is your full name?");
+                    this.fullname = Console.ReadLine();
+                    
+                    // prompt user for the account id number of the account they 
+                    // would like to make a deposit to
+                    Console.WriteLine("What is the id of the account you wish to make the withdraw from?");
+                    this.accountId = int.Parse(Console.ReadLine());
+
+                    // prompt user for amount they wish to deposit
+                    Console.WriteLine("How much would you like to withdraw?");
+                    double withdrawAmount = double.Parse(Console.ReadLine());
+
+                    // make the deposit
+                    model.Withdraw(fullname, this.accountId, withdrawAmount);
 
                     break;
                 case 4:

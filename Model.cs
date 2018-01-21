@@ -24,12 +24,8 @@ namespace MyBankTeller
         public int CreateCustomer(string fullname)
         {
             int customerId = 0;
-            // string connectionString = "Data Source=database.sqlite;";
-            // SqliteConnection sqlite_conn = new SqliteConnection(connectionString);
 
             this.sqlite_conn.Open();
-
-            // SqliteCommand sqlite_command = sqlite_conn.CreateCommand();
 
             this.sqlite_command.CommandText = @"CREATE TABLE IF NOT EXISTS 
                 Customer (
@@ -48,8 +44,6 @@ namespace MyBankTeller
 
             while(dataReader.Read())
             {
-                // long id = (long) dataReader["id"];
-                // object id = dataReader["id"];
                 customerId = int.Parse(dataReader["id"].ToString());
             }
 
@@ -57,28 +51,12 @@ namespace MyBankTeller
 
             return customerId;
         }
-        // mayber this method should return the newly created Account Id
+
         public int CreateAccount(int customerId)
         {
             int accountId = 0;
 
-            // string connectionString = "Data Source=database.sqlite;";
-            // SqliteConnection sqlite_conn = new SqliteConnection(connectionString);
-
             this.sqlite_conn.Open();
-
-            // SqliteCommand sqlite_command = sqlite_conn.CreateCommand();
-
-            /*
-            CREATE TABLE IF NOT EXISTS 
-                Account (
-                    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    customer_id INTEGER NOT NULL,
-                    balance REAL NOT NULL DEFAULT 0,
-					FOREIGN KEY (customer_id) REFERENCES Customer(id));
-					
-            insert into Account (customer_id, balance) values (1, 5.00);
-            */
 
             this.sqlite_command.CommandText = @"CREATE TABLE IF NOT EXISTS 
                 Account (
@@ -100,8 +78,6 @@ namespace MyBankTeller
 
             while(dataReader.Read())
             {
-                // long id = (long) dataReader["id"];
-                // object id = dataReader["id"];
                 accountId = int.Parse(dataReader["account_id"].ToString());
             }
 
@@ -145,5 +121,48 @@ namespace MyBankTeller
 
             this.sqlite_conn.Close();			
 		}
+
+        internal void Withdraw(string fullname, int accountId, double withdrawAmount)
+        {
+            int userId = 0;
+            double currentBalance = 0;
+            double newBalance = 0;
+            
+            this.sqlite_conn.Open();
+
+            // get customer id from db
+            sqlite_command.CommandText = $"SELECT id from Customer WHERE fullname = '{fullname}'";
+            SqliteDataReader dataReader = sqlite_command.ExecuteReader();
+            while(dataReader.Read())
+            {
+                userId = int.Parse(dataReader["id"].ToString());
+            }
+
+            // get current balance from db
+            sqlite_command.CommandText = $"SELECT balance FROM ACCOUNT WHERE id = {accountId} AND customer_id = {userId}";
+            dataReader = sqlite_command.ExecuteReader();
+            while(dataReader.Read())
+            {
+                currentBalance = double.Parse(dataReader["balance"].ToString());
+            }
+
+            // need to verify this is enough in the account
+            
+            if(withdrawAmount > currentBalance)
+            {
+                Console.WriteLine("I'm sorry, it appears the withdraw amount exceeds the current balance in the account.");
+            }
+            else
+            {
+                newBalance = currentBalance - withdrawAmount;
+            }
+            // update customer account balance in db
+
+            sqlite_command.CommandText = $"UPDATE Account SET balance = {newBalance} WHERE customer_id = {userId}";
+
+            sqlite_command.ExecuteNonQuery();
+
+            this.sqlite_conn.Close();
+        }
 	}
 }
