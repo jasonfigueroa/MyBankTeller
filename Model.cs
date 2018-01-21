@@ -110,15 +110,18 @@ namespace MyBankTeller
             return accountId;
         }
 
+        // would like to update this to prompt user to select from a list of 
+        // available accounts associated with their id in the db
 		internal void Deposit(string fullname, int accountId, double depositAmount)
 		{
             int userId = 0;
             double currentBalance = 0;
             double newBalance;
+            
             this.sqlite_conn.Open();
 
             // get customer id from db
-            sqlite_command.CommandText = $"SELECT id from Customer WHERE fullname = {fullname}";
+            sqlite_command.CommandText = $"SELECT id from Customer WHERE fullname = '{fullname}'";
             SqliteDataReader dataReader = sqlite_command.ExecuteReader();
             while(dataReader.Read())
             {

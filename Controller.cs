@@ -19,6 +19,9 @@ namespace MyBankTeller
             switch (option)
             {
                 case 1:
+                    /***************************/
+                    /* Create Customer Account */
+                    /***************************/
                     Console.WriteLine("What is your full name?");
                     this.fullname = Console.ReadLine();
 
@@ -41,15 +44,20 @@ namespace MyBankTeller
                     
                     break;
                 case 2:
-                    // Deposit
+                    /***********/
+                    /* Deposit */
+                    /***********/
+
                     // prompt user for their name
                     Console.WriteLine("What is your full name?");
                     this.fullname = Console.ReadLine();
+                    
                     // prompt user for the account id number of the account they 
                     // would like to make a deposit to
-                    Console.WriteLine("What is the id of the account?");
+                    Console.WriteLine("What is the id of the account you wish to make the deposit to?");
                     this.accountId = int.Parse(Console.ReadLine());
 
+                    // prompt user for amount they wish to deposit
                     Console.WriteLine("How much would you like to deposit?");
                     double depositAmount = double.Parse(Console.ReadLine());
 
@@ -58,15 +66,23 @@ namespace MyBankTeller
 
                     break;
                 case 3:
-                    Console.WriteLine("Case 2");
-                    // this.promptUserForAccountNumber();
+                    /************/
+                    /* Withdraw */
+                    /************/
+                    
+                    // code here
+
                     break;
                 case 4:
-                    Console.WriteLine("Case 2");
-                    // this.promptUserForAccountNumber();
+                    /****************/
+                    /* Show Balance */
+                    /****************/
+                    
+                    // code here
+
                     break;
                 // default:
-                //     Console.WriteLine("Default case");
+                //     // code here
                 //     break;
             }
         }
